@@ -13,6 +13,7 @@ import pickle
 from sklearn.neighbors import KNeighborsClassifier
 # from sklearn import metrics
 
+
 class Similarity:
     def __init__(self):
         self.BASE_DIR = ''
@@ -26,13 +27,8 @@ class Similarity:
         
     def similarity(self):
         print("hello")
-        with open(os.path.join(self.GLOVE_DIR, 'glove.6B.100d.txt'), encoding="utf8") as f:
-            for line in f:
-                word, coefs = line.split(maxsplit=1)
-                coefs = np.fromstring(coefs, 'f', sep=' ')
-                self.embeddings_index[word] = coefs
-        print('Found %s word vectors.' % len(self.embeddings_index))
-
+        embeddings_index = pickle.load( open( "embeddings_index.pkl", "rb" ) )
+        
 
         data = pd.read_csv("..\\data\\temp_data.csv",  encoding="utf8")
         text = data['label']
@@ -60,18 +56,24 @@ class Similarity:
             for j in range(len(temp)):
                 x = temp[j]
                 if(len(x) > 0):
-                    p = self.embeddings_index[x]
+                    p = embeddings_index[x]
                     embed[i][(j*100):((j+1)*100)] = p
         
         
         knn = KNeighborsClassifier(n_neighbors=10)
         cls = cls.to_numpy()
         knn.fit(embed, cls)
-        #pickle.dumps(knn,'model')
+        #pickle.dumps(knn,'model.pkl')
         
-        return self.embeddings_index, knn
+        filename = 'finalized_model.sav'
+        pickle.dump(knn, open(filename, 'wb'))
         
         
         
+        #return self.embeddings_index, knn
+        
+        
+simi = Similarity()
+simi.similarity()
         
         
