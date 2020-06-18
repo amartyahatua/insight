@@ -22,15 +22,29 @@ def lambda_handler(event, context):
     data = json.loads(json.dumps(event))
     payload = data['data']
     print(payload)
+    objectList = payload[0]
+    test_data_new = np.zeros((1, 500))
+    result = []
     
+    for i in range(len(objectList)):
+        temp = objectList[i]
+        temp = temp.split(" ")
+            #print(temp)
+        for j in range(len(temp)):
+            x = temp[j]
+            if(len(x) > 0):
+                x = x.lower()
+                print(x)
+                p = myList[x]
+                #print(p)
+
+                test_data_new[0][(j*100):((j+1)*100)] = p
+                
+        response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,Body=json.dumps([test_data_new]))
+        
+        result.append(self.knn.predict(test_data_new))
+    print("Class --> ",result[0])
     
-    # response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
-    #                                   Body=json.dumps(payload))
-    # #print(response)
-    # result = json.loads(response['Body'].read().decode())
-    # #print(result)
-    
-    # return result[0]
     
     print(r)
     print(myList[payload[0][0]])
