@@ -1,17 +1,10 @@
 from __future__ import print_function
 import os
-# import sys
 import numpy as np
 import pandas as pd
 import pickle
-# from nltk.stem import WordNetLemmatizer
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.feature_extraction import stop_words
-# from nltk.stem import PorterStemmer
-# from nltk.stem import LancasterStemmer
-# from gensim.models import KeyedVectors
 from sklearn.neighbors import KNeighborsClassifier
-# from sklearn import metrics
+
 
 
 class Similarity:
@@ -28,8 +21,6 @@ class Similarity:
     def similarity(self):
         print("hello")
         embeddings_index = pickle.load( open( "embeddings_index.pkl", "rb" ) )
-        
-
         data = pd.read_csv("..\\data\\temp_data.csv",  encoding="utf8")
         text = data['label']
         cls = data['type']
@@ -58,19 +49,11 @@ class Similarity:
                 if(len(x) > 0):
                     p = embeddings_index[x]
                     embed[i][(j*100):((j+1)*100)] = p
-        
-        
         knn = KNeighborsClassifier(n_neighbors=10)
         cls = cls.to_numpy()
         knn.fit(embed, cls)
-        #pickle.dumps(knn,'model.pkl')
-        
         filename = 'finalized_model.sav'
         pickle.dump(knn, open(filename, 'wb'))
-        
-        
-        
-        #return self.embeddings_index, knn
         
         
 simi = Similarity()

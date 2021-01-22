@@ -80,20 +80,4 @@ class ObjectDetction:
             cv2.putText(imgcv, objectname, (startX, (startY-10)), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
         
         cv2.imwrite(self.img, imgcv)
-        
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-#obj = ObjectDetction()
-#obj.identify()
+       
